@@ -1,0 +1,14 @@
+{
+  "name": "paginator.js",
+  "version": "0.0.1",
+  "main": [
+    "./src/paginator.js",
+    "./src/paginator.css"
+  ],
+  "ignore": [
+    ".jshintrc"
+  ],
+  "devDependencies": {
+    "<test-framework-name>": "<version>"
+  }
+}
