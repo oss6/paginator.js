@@ -1,3 +1,10 @@
+/**
+ * paginator.js
+ * Description: A lightweight and dependency-free pagination library
+ * Version: 0.0.1
+ * Author: Ossama Edbali
+ */
+
 var paginator = (function () {
 
     var _ = {},
@@ -86,7 +93,8 @@ var paginator = (function () {
             numPages = Math.ceil(elements.length / o.itemsPerPage);
 
         // Create wrapper around the links
-        var wrapper = document.createElement('div');
+        var wrapper = document.createElement('div'),
+            fragment = document.createDocumentFragment();
         wrapper.className = 'paginator-wrapper ' + (o.theme === 'default' ? 'default-theme' : 'no-theme');
 
         // Create previous
@@ -95,7 +103,8 @@ var paginator = (function () {
         prev.setAttribute('href', '#page-prev');
         prev.innerHTML = o.prevText;
         prev.addEventListener('click', $.wrap.call(self, self.previous));
-        wrapper.appendChild(prev);
+        fragment.appendChild(prev);
+        //wrapper.appendChild(prev);
 
         // Create page links
         for (var i = 1; i <= numPages; i++) {
@@ -109,7 +118,8 @@ var paginator = (function () {
             plink.addEventListener('click', $.wrap.call(self, self.select, i - 1), false);
 
             self._links.push(plink);
-            wrapper.appendChild(plink);
+            fragment.appendChild(plink);
+            //wrapper.appendChild(plink);
         }
 
         // Create next
@@ -118,7 +128,9 @@ var paginator = (function () {
         next.setAttribute('href', '#page-next');
         next.innerHTML = o.nextText;
         next.addEventListener('click', $.wrap.call(self, self.next));
-        wrapper.appendChild(next);
+        fragment.appendChild(next);
+        //wrapper.appendChild(next);
+        wrapper.appendChild(fragment);
 
         if (parent) {
             parent.appendChild(wrapper);
