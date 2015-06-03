@@ -105,12 +105,14 @@ var paginator = (function () {
             plink.setAttribute('href', '#page-' + i);
             plink.innerHTML = i + '';
             plink.addEventListener('click', $.wrap.call(self, self.select, i - 1), false);
+
+            self._links.push(plink);
             wrapper.appendChild(plink);
         }
 
         // Create next
         var next = document.createElement('a');
-        next.className = 'page-next';
+        next.className = 'paginator-link';
         next.setAttribute('href', '#page-next');
         next.innerHTML = o.nextText;
         next.addEventListener('click', $.wrap.call(self, self.next));
@@ -160,6 +162,7 @@ var paginator = (function () {
         self._opts = $.extend(defaults, opts);
         self._elements = $.getElements(elements);
         self._pages = [];
+        self._links = [];
         self._activePageNum = self._opts.currentPage - 1;
 
         // Initialise links and pages
@@ -175,10 +178,16 @@ var paginator = (function () {
     // BEGIN: Public methods
     _.Paginator.prototype.select = function (pageNum) {
         var currentPage = this.getCurrentPage();
-        //pageNum--;
 
+        // Remove
         currentPage.classList.remove('paginator-active');
+        this._links[this._activePageNum].classList.remove('paginator-active');
+
+        // Add
         this._pages[pageNum].classList.add('paginator-active');
+        this._links[pageNum].classList.add('paginator-active');
+
+        // Update active page number
         this._activePageNum = pageNum;
     };
 

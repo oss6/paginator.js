@@ -5,3 +5,16 @@
 .paginator-page.paginator-active {
     display: block;
 }
+
+.paginator-wrapper .paginator-link {
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.paginator-wrapper .paginator-link:last-child {
+    margin-right: 0;
+}
+
+.paginator-wrapper .paginator-link.paginator-active {
+    text-decoration: underline;
+}
