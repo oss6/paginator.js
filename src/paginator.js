@@ -65,12 +65,22 @@ var paginator = (function () {
         for (var i = collection.length; i--; arr.unshift(collection[i]));
         return arr;
     };
+
+    $.wrap = function (fn) {
+        var args = Array.prototype.slice.call(arguments, 1),
+            self = this;
+
+        return function () {
+            fn.apply(self, args);
+        };
+    };
     // END: Utilities
 
     // BEGIN: Private member
     $.createLinks = function (parent) {
-        var o = this._opts,
-            elements = this._elements,
+        var self = this,
+            o = self._opts,
+            elements = self._elements,
             numPages = Math.ceil(elements.length / o.itemsPerPage);
 
         // Create wrapper around the links
@@ -82,6 +92,7 @@ var paginator = (function () {
         prev.className = 'paginator-link';
         prev.setAttribute('href', '#page-prev');
         prev.innerHTML = o.prevText;
+        prev.addEventListener('click', $.wrap.call(self, self.previous));
         wrapper.appendChild(prev);
 
         // Create page links
@@ -93,6 +104,7 @@ var paginator = (function () {
             }
             plink.setAttribute('href', '#page-' + i);
             plink.innerHTML = i + '';
+            plink.addEventListener('click', $.wrap.call(self, self.select, i - 1), false);
             wrapper.appendChild(plink);
         }
 
@@ -101,6 +113,7 @@ var paginator = (function () {
         next.className = 'page-next';
         next.setAttribute('href', '#page-next');
         next.innerHTML = o.nextText;
+        next.addEventListener('click', $.wrap.call(self, self.next));
         wrapper.appendChild(next);
 
         if (parent) {
@@ -132,6 +145,7 @@ var paginator = (function () {
 
             // Append page and update elements
             parent.appendChild(page);
+            this._pages.push(page);
             elements = elements.slice(itemsPerPage);
         }
     };
@@ -145,6 +159,8 @@ var paginator = (function () {
         opts = opts || {};
         self._opts = $.extend(defaults, opts);
         self._elements = $.getElements(elements);
+        self._pages = [];
+        self._activePageNum = self._opts.currentPage - 1;
 
         // Initialise links and pages
         var parent = $.getParent.call(self);
@@ -157,20 +173,39 @@ var paginator = (function () {
     };
 
     // BEGIN: Public methods
-    _.Paginator.prototype.currentPage = function (pageNum) { // Getter and setter
+    _.Paginator.prototype.select = function (pageNum) {
+        var currentPage = this.getCurrentPage();
+        //pageNum--;
 
+        currentPage.classList.remove('paginator-active');
+        this._pages[pageNum].classList.add('paginator-active');
+        this._activePageNum = pageNum;
+    };
+
+    _.Paginator.prototype.getCurrentPage = function () { // Getter and setter
+        return this._pages[this._activePageNum];
+    };
+
+    $.isOutOfRange = function (i, arr) {
+        return i < 0 || i >= arr.length;
     };
 
     _.Paginator.prototype.previous = function () {
-
+        var pageNum = this._activePageNum - 1;
+        if (!$.isOutOfRange(pageNum, this._pages)) {
+            this.select(pageNum);
+        }
     };
 
     _.Paginator.prototype.next = function () {
-
+        var pageNum = this._activePageNum + 1;
+        if (!$.isOutOfRange(pageNum, this._pages)) {
+            this.select(pageNum);
+        }
     };
 
     _.Paginator.prototype.pagesCount = function () {
-
+        return this._pages.length;
     };
 
     _.Paginator.prototype.disable = function () {
@@ -178,10 +213,6 @@ var paginator = (function () {
     };
 
     _.Paginator.prototype.enable = function () {
-
-    };
-
-    _.Paginator.prototype.currentPage = function () {
 
     };
 
