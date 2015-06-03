@@ -3,3 +3,4 @@ COMPATIBILITY LIST:
 
 children:                  >= 9      YES             YES             YES             YES
 querySelectorAll           >= 9      YES             YES             YES             YES
+addEventListener           >= 9      YES             YES             YES             YES
