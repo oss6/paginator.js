@@ -1,9 +1,22 @@
+/*
+    paginator.css
+
+    Description: Defines basic styling and the default theme for paginator.js
+	Version:     0.0.1
+	Author:      Ossama Edbali
+*/
+
+/* === BASIC STYLING === */
 .paginator-page {
     display: none;
 }
 
 .paginator-page.paginator-active {
     display: block;
+}
+
+.paginator-wrapper {
+    text-align: center;
 }
 
 .paginator-wrapper .paginator-link {
@@ -18,3 +31,5 @@
 .paginator-wrapper .paginator-link.paginator-active {
     text-decoration: underline;
 }
+
+/* === DEFAULT THEME === */

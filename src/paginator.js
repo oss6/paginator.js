@@ -77,6 +77,8 @@ var paginator = (function () {
     // END: Utilities
 
     // BEGIN: Private member
+
+    // TODO: Use DocumentFragment!
     $.createLinks = function (parent) {
         var self = this,
             o = self._opts,
@@ -138,7 +140,6 @@ var paginator = (function () {
             if (o.currentPage === i) {
                 page.className += ' paginator-active';
             }
-            page.setAttribute('id', 'page-' + i); // [fix]: multiple paginators per page
 
             // Append to page
             for (var j = 0, l = toAdd.length; j < l; j++) {
