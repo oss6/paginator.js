@@ -1,0 +1,5 @@
+COMPATIBILITY LIST:
+                            IE      FIREFOX         SAFARI          OPERA           CHROME
+
+children:                  >= 9      YES             YES             YES             YES
+querySelectorAll           >= 9      YES             YES             YES             YES
