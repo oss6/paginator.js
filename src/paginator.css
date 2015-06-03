@@ -1,0 +1,7 @@
+.paginator-page {
+    display: none;
+}
+
+.paginator-page.paginator-active {
+    display: block;
+}

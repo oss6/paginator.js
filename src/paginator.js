@@ -73,16 +73,6 @@ var paginator = (function () {
             elements = this._elements,
             numPages = Math.ceil(elements.length / o.itemsPerPage);
 
-        // [squeeze]: ternary op here
-        /*if (o.appendTo === null) {
-            // Append to elements parent
-            var testElement = elements[0]; // [fix]: empty array
-            parent = testElement.parentNode;
-        }
-        else {
-            parent = document.querySelector(o.appendTo);
-        }*/
-
         // Create wrapper around the links
         var wrapper = document.createElement('div');
         wrapper.className = 'paginator-wrapper ' + (o.theme === 'default' ? 'default-theme' : 'no-theme');
@@ -99,7 +89,7 @@ var paginator = (function () {
             var plink = document.createElement('a');
             plink.className = 'paginator-link';
             if (o.currentPage === i) {
-                plink.className += ' page-active';
+                plink.className += ' paginator-active';
             }
             plink.setAttribute('href', '#page-' + i);
             plink.innerHTML = i + '';
@@ -130,6 +120,9 @@ var paginator = (function () {
                 toAdd = elements.slice(0, itemsPerPage);
 
             page.className = 'paginator-page';
+            if (o.currentPage === i) {
+                page.className += ' paginator-active';
+            }
             page.setAttribute('id', 'page-' + i); // [fix]: multiple paginators per page
 
             // Append to page
@@ -159,8 +152,8 @@ var paginator = (function () {
         $.createLinks.call(self, parent);
     };
 
-    _.create = function (opts) {
-        return new _.Paginator(opts);
+    _.create = function (elements, opts) {
+        return new _.Paginator(elements, opts);
     };
 
     // BEGIN: Public methods
