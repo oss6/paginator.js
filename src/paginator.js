@@ -45,24 +45,43 @@ var paginator = (function () {
             return e.children; // HTMLCollection
         }
     };
-    // END: Utilities
 
-    // BEGIN: Private member
-    $.createLinks = function () {
-        var o = this._opts,
-            elements = this._elements,
-            num = elements.length,
-            parent;
+    $.getParent = function () {
+        var o = this._opts;
 
         // [squeeze]: ternary op here
         if (o.appendTo === null) {
+            // Append to elements parent
+            var testElement = this._elements[0]; // [fix]: empty array
+            return testElement.parentNode;
+        }
+        else {
+            return document.querySelector(o.appendTo);
+        }
+    };
+
+    $.toArray = function (collection) {
+        var arr = [];
+        for (var i = collection.length; i--; arr.unshift(collection[i]));
+        return arr;
+    };
+    // END: Utilities
+
+    // BEGIN: Private member
+    $.createLinks = function (parent) {
+        var o = this._opts,
+            elements = this._elements,
+            numPages = Math.ceil(elements.length / o.itemsPerPage);
+
+        // [squeeze]: ternary op here
+        /*if (o.appendTo === null) {
             // Append to elements parent
             var testElement = elements[0]; // [fix]: empty array
             parent = testElement.parentNode;
         }
         else {
             parent = document.querySelector(o.appendTo);
-        }
+        }*/
 
         // Create wrapper around the links
         var wrapper = document.createElement('div');
@@ -76,7 +95,7 @@ var paginator = (function () {
         wrapper.appendChild(prev);
 
         // Create page links
-        for (var i = 1; i <= num; i++) {
+        for (var i = 1; i <= numPages; i++) {
             var plink = document.createElement('a');
             plink.className = 'paginator-link';
             if (o.currentPage === i) {
@@ -99,8 +118,29 @@ var paginator = (function () {
         }
     };
 
-    $.createPages = function () {
+    $.createPages = function (parent) {
+        var o = this._opts,
+            elements = $.toArray(this._elements),
+            numItems = elements.length,
+            itemsPerPage = o.itemsPerPage,
+            numPages = Math.ceil(numItems / itemsPerPage);
 
+        for (var i = 1; i <= numPages; i++) {
+            var page = document.createElement('div'),
+                toAdd = elements.slice(0, itemsPerPage);
+
+            page.className = 'paginator-page';
+            page.setAttribute('id', 'page-' + i); // [fix]: multiple paginators per page
+
+            // Append to page
+            for (var j = 0, l = toAdd.length; j < l; j++) {
+                page.appendChild(toAdd[j]);
+            }
+
+            // Append page and update elements
+            parent.appendChild(page);
+            elements = elements.slice(itemsPerPage);
+        }
     };
 
     // END: Private member
@@ -114,8 +154,9 @@ var paginator = (function () {
         self._elements = $.getElements(elements);
 
         // Initialise links and pages
-        $.createLinks.call(self);
-        $.createPages.call(self);
+        var parent = $.getParent.call(self);
+        $.createPages.call(self, parent);
+        $.createLinks.call(self, parent);
     };
 
     _.create = function (opts) {
