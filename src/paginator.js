@@ -84,8 +84,6 @@ var paginator = (function () {
     // END: Utilities
 
     // BEGIN: Private member
-
-    // TODO: Use DocumentFragment!
     $.createLinks = function (parent) {
         var self = this,
             o = self._opts,
@@ -104,7 +102,6 @@ var paginator = (function () {
         prev.innerHTML = o.prevText;
         prev.addEventListener('click', $.wrap.call(self, self.previous));
         fragment.appendChild(prev);
-        //wrapper.appendChild(prev);
 
         // Create page links
         for (var i = 1; i <= numPages; i++) {
@@ -119,7 +116,6 @@ var paginator = (function () {
 
             self._links.push(plink);
             fragment.appendChild(plink);
-            //wrapper.appendChild(plink);
         }
 
         // Create next
@@ -165,6 +161,39 @@ var paginator = (function () {
         }
     };
 
+    $.showInterval = function () {
+        var o = this._opts;
+        var activePageNum = this._activePageNum;
+        var numLinks = this._links.length;
+
+        // Reset all links
+        for (var i = 0, l = this._links.length; i < l; i++) {
+            this._links[i].style.display = 'none';
+        }
+
+        // Show margins
+        for (i = 0; i < o.margins; i++) {
+            this._links[i].style.display = 'inline';
+        }
+
+        for (i = numLinks - 1; i >= numLinks - o.margins; i--) {
+            this._links[i].style.display = 'inline';
+        }
+
+        if (activePageNum > o.displayedPageNumbers + o.margins) {
+            // Add dots
+
+        }
+
+        // Show interval
+        var start = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks - o.displayedPageNumbers : activePageNum;
+        var end = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks : activePageNum + o.displayedPageNumbers;
+
+        for (i = start; i < end; i++) {
+            this._links[i].style.display = 'inline';
+        }
+    };
+
     // END: Private member
 
     _.Paginator = function (elements, opts) {
@@ -182,6 +211,7 @@ var paginator = (function () {
         var parent = $.getParent.call(self);
         $.createPages.call(self, parent);
         $.createLinks.call(self, parent);
+        $.showInterval.call(self);
     };
 
     _.create = function (elements, opts) {
@@ -202,6 +232,7 @@ var paginator = (function () {
 
         // Update active page number
         this._activePageNum = pageNum;
+        $.showInterval.call(this);
     };
 
     _.Paginator.prototype.getCurrentPage = function () { // Getter and setter
