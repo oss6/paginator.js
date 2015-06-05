@@ -206,19 +206,8 @@ var paginator = (function () {
 
         // Show/hide dots
         var dots = this._linksWrapper.getElementsByClassName('paginator-dots');
-        if (activePageNum > o.margins) {
-            dots[0].style.display = 'inline';
-        }
-        else {
-            dots[0].style.display = 'none';
-        }
-
-        /*if (activePageNum < this._links.length - o.margins) {
-            dots[1].style.display = 'inline';
-        }
-        else {
-            dots[1].style.display = 'none';
-        }*/
+        dots[0].style.display = (activePageNum > o.margins) ? 'inline' : 'none';
+        dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
     };
 
     function insertAfter(newNode, referenceNode) {
