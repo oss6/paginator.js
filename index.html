@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Paginator.js by oss6</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Paginator.js</h1>
+      <h2 class="project-tagline">A small, dependency-free pagination library for modern browsers.</h2>
+      <a href="https://github.com/oss6/paginator.js" class="btn">View on GitHub</a>
+      <a href="https://github.com/oss6/paginator.js/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/oss6/paginator.js/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <blockquote>
+<p><strong>Note</strong>: This library works for major modern browsers (with I.E. &gt;= 9)</p>
+</blockquote>
+
+<h1>
+<a id="basic-usage" class="anchor" href="#basic-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Basic usage</h1>
+
+<p>To install paginator.js:</p>
+
+<ul>
+<li>Download the zip file containing paginator.min.js and paginator.css (see above links)</li>
+<li><code>bower install --save paginator.js</code></li>
+</ul>
+
+<p>The basic usage is very simple to configure:</p>
+
+<div class="highlight highlight-html"><pre>&lt;<span class="pl-ent">div</span> <span class="pl-e">id</span>=<span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span>&gt;
+    &lt;<span class="pl-ent">article</span>&gt;
+        ...
+    &lt;/<span class="pl-ent">article</span>&gt;
+
+    &lt;<span class="pl-ent">article</span>&gt;
+        ...
+    &lt;/<span class="pl-ent">article</span>&gt;
+
+    &lt;<span class="pl-ent">article</span>&gt;
+        ...
+    &lt;/<span class="pl-ent">article</span>&gt;
+&lt;/<span class="pl-ent">div</span>&gt;</pre></div>
+
+<div class="highlight highlight-javascript"><pre><span class="pl-k">var</span> pg <span class="pl-k">=</span> paginator.create(<span class="pl-s"><span class="pl-pds">'</span>#test article<span class="pl-pds">'</span></span>);</pre></div>
+
+<h1>
+<a id="options" class="anchor" href="#options" aria-hidden="true"><span class="octicon octicon-link"></span></a>Options</h1>
+
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>appendTo</td>
+<td>Choose where to append the pages and links</td>
+<td>null (i.e. append to elements' parent)</td>
+</tr>
+<tr>
+<td>itemsPerPage</td>
+<td>Elements per page</td>
+<td>10</td>
+</tr>
+<tr>
+<td>displayedPageNumbers</td>
+<td>The number of pages' links to show at one moment (interval)</td>
+<td>5</td>
+</tr>
+<tr>
+<td>currentPage</td>
+<td>Initial page</td>
+<td>1</td>
+</tr>
+<tr>
+<td>margins</td>
+<td>Number of links to show at the margins</td>
+<td>2</td>
+</tr>
+<tr>
+<td>prevText</td>
+<td>Previous text</td>
+<td>'Prev'</td>
+</tr>
+<tr>
+<td>nextText</td>
+<td>Next text</td>
+<td>'Next'</td>
+</tr>
+<tr>
+<td>theme</td>
+<td>Choose the theme</td>
+<td>'default'</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="methods" class="anchor" href="#methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>Methods</h1>
+
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+<th>Parameters</th>
+<th>Returns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>select</td>
+<td>Selects a page given its number</td>
+<td>pageNum : Number</td>
+<td>{ 'link': selected link, 'page': selected page } or null</td>
+</tr>
+<tr>
+<td>getCurrentPage</td>
+<td>Gets the active page</td>
+<td>/</td>
+<td>Element object</td>
+</tr>
+<tr>
+<td>previous</td>
+<td>Moves to the previous page</td>
+<td>/</td>
+<td>See select</td>
+</tr>
+<tr>
+<td>next</td>
+<td>Moves to the next page</td>
+<td>/</td>
+<td>See select</td>
+</tr>
+<tr>
+<td>pagesCount</td>
+<td>Gets the number of pages</td>
+<td>/</td>
+<td>Number of pages : Number</td>
+</tr>
+<tr>
+<td>disable</td>
+<td>Disables the pagination functionality</td>
+<td>/</td>
+<td>/</td>
+</tr>
+<tr>
+<td>enable</td>
+<td>Enables the pagination functionality</td>
+<td>/</td>
+<td>/</td>
+</tr>
+</tbody>
+</table>
+
+<h1>
+<a id="tests" class="anchor" href="#tests" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tests</h1>
+
+<p>Tests are written using QUnit and cover all methods. Check them on the <a href="https://github.com/oss6/paginator.js">GitHub repo</a>.</p>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>MIT © <a href="http://oss6.github.io">Ossama Edbali</a></p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/oss6/paginator.js">Paginator.js</a> is maintained by <a href="https://github.com/oss6">oss6</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+            <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-54085200-3");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
+
