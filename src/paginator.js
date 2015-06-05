@@ -137,8 +137,10 @@ var paginator = (function () {
         next.innerHTML = o.nextText;
         next.addEventListener('click', $.wrap.call(self, self.next));
         fragment.appendChild(next);
-        //wrapper.appendChild(next);
+
+        // Append to wrapper and save
         wrapper.appendChild(fragment);
+        self._linksWrapper = wrapper;
 
         if (parent) {
             parent.appendChild(wrapper);
@@ -192,12 +194,6 @@ var paginator = (function () {
             this._links[i].style.display = 'inline';
         }
 
-        /*if (activePageNum > o.displayedPageNumbers + o.margins) {
-            // Add dots
-            var dots = document.createElement('span');
-
-        }*/
-
         // Show interval
         var start = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks - o.displayedPageNumbers : activePageNum,
             end = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks : activePageNum + o.displayedPageNumbers;
@@ -208,12 +204,21 @@ var paginator = (function () {
             }
         }
 
-        var marginLink = this._links[o.margins - 1],
-            marginLinkNeighbour = this._links[o.margins];
-
-        if (marginLinkNeighbour.style.display === 'none') {
-
+        // Show/hide dots
+        var dots = this._linksWrapper.getElementsByClassName('paginator-dots');
+        if (activePageNum > o.margins) {
+            dots[0].style.display = 'inline';
         }
+        else {
+            dots[0].style.display = 'none';
+        }
+
+        /*if (activePageNum < this._links.length - o.margins) {
+            dots[1].style.display = 'inline';
+        }
+        else {
+            dots[1].style.display = 'none';
+        }*/
     };
 
     function insertAfter(newNode, referenceNode) {
@@ -231,6 +236,7 @@ var paginator = (function () {
         self._elements = $.getElements(elements);
         self._pages = [];
         self._links = [];
+        self._linksWrapper = null;
         self._activePageNum = self._opts.currentPage - 1;
 
         // Initialise links and pages
