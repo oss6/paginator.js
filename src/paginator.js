@@ -6,6 +6,7 @@
  */
 
 var paginator = (function () {
+    'use strict';
 
     var _ = {},
         $ = {};
@@ -72,9 +73,7 @@ var paginator = (function () {
     };
 
     $.toArray = function (collection) {
-        var arr = [];
-        for (var i = collection.length; i--; arr.unshift(collection[i]));
-        return arr;
+        return [].slice.call(collection);
     };
 
     $.wrap = function (fn) {
@@ -209,10 +208,6 @@ var paginator = (function () {
         dots[0].style.display = (activePageNum > o.margins) ? 'inline' : 'none';
         dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
     };
-
-    function insertAfter(newNode, referenceNode) {
-        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
 
     // END: Private member
 
