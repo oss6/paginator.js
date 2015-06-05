@@ -67,6 +67,10 @@ var paginator = (function () {
         }
     };
 
+    $.isOutOfRange = function (i, arr) {
+        return i < 0 || i >= arr.length;
+    };
+
     $.toArray = function (collection) {
         var arr = [];
         for (var i = collection.length; i--; arr.unshift(collection[i]));
@@ -116,6 +120,14 @@ var paginator = (function () {
 
             self._links.push(plink);
             fragment.appendChild(plink);
+
+            // Add dots
+            if (i === o.margins || numPages - i === o.margins) {
+                var dots = document.createElement('span');
+                dots.className = 'paginator-dots';
+                dots.innerHTML = '...';
+                fragment.appendChild(dots);
+            }
         }
 
         // Create next
@@ -180,19 +192,33 @@ var paginator = (function () {
             this._links[i].style.display = 'inline';
         }
 
-        if (activePageNum > o.displayedPageNumbers + o.margins) {
+        /*if (activePageNum > o.displayedPageNumbers + o.margins) {
             // Add dots
+            var dots = document.createElement('span');
 
-        }
+        }*/
 
         // Show interval
-        var start = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks - o.displayedPageNumbers : activePageNum;
-        var end = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks : activePageNum + o.displayedPageNumbers;
+        var start = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks - o.displayedPageNumbers : activePageNum,
+            end = (activePageNum + o.displayedPageNumbers >= numLinks) ? numLinks : activePageNum + o.displayedPageNumbers;
 
         for (i = start; i < end; i++) {
-            this._links[i].style.display = 'inline';
+            if (this._links[i].style.display === 'none') {
+                this._links[i].style.display = 'inline';
+            }
+        }
+
+        var marginLink = this._links[o.margins - 1],
+            marginLinkNeighbour = this._links[o.margins];
+
+        if (marginLinkNeighbour.style.display === 'none') {
+
         }
     };
+
+    function insertAfter(newNode, referenceNode) {
+        referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+    }
 
     // END: Private member
 
@@ -237,10 +263,6 @@ var paginator = (function () {
 
     _.Paginator.prototype.getCurrentPage = function () { // Getter and setter
         return this._pages[this._activePageNum];
-    };
-
-    $.isOutOfRange = function (i, arr) {
-        return i < 0 || i >= arr.length;
     };
 
     _.Paginator.prototype.previous = function () {

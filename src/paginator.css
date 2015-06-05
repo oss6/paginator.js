@@ -32,4 +32,13 @@
     text-decoration: underline;
 }
 
+.paginator-dots {
+    display: none;
+    margin-right: 10px;
+}
+
+.paginator-dots.paginator-active {
+    display: inline;
+}
+
 /* === DEFAULT THEME === */
