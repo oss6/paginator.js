@@ -1,5 +1,6 @@
 # paginator.js
-> A small and dependency-free pagination library. <a href="http://oss6.github.io/paginator.js/">http://oss6.github.io/paginator.js/</a>
+> A small and dependency-free pagination library for modern browesers. <a href="http://oss6.github.io/paginator.js/">http://oss6.github.io/paginator.js/</a>
+> **Note**: This library works for major moder browsers (with I.E. >= 9)
 
 ## Install
 Download the zip file containing paginator.min.js and paginator.css from <a href="http://oss6.github.io/paginator.js/">here</a>.

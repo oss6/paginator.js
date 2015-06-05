@@ -6,6 +6,8 @@
 	Author:      Ossama Edbali
 */
 
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,300,100);
+
 /* === BASIC STYLING === */
 .paginator-page {
     display: none;
@@ -16,6 +18,7 @@
 }
 
 .paginator-wrapper {
+    margin-top: 22px;
     text-align: center;
 }
 
@@ -42,3 +45,18 @@
 }
 
 /* === DEFAULT THEME === */
+.paginator-wrapper {
+    font-family: "Roboto", sans-serif;
+}
+
+.paginator-wrapper .paginator-link {
+    font-weight: 100;
+    padding: 3px 8px;
+    color: #000;
+}
+
+.paginator-wrapper .paginator-link.paginator-active {
+    text-decoration: none;
+    background-color: #ee6e73;
+    color: #fff;
+}

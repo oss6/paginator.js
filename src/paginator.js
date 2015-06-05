@@ -20,7 +20,6 @@ var paginator = (function () {
         'prevText': 'Prev',
         'nextText': 'Next',
         'theme': 'default' // or 'no-theme' (so it can be customised)
-
     };
 
     // BEGIN: Utilities
@@ -80,7 +79,8 @@ var paginator = (function () {
         var args = Array.prototype.slice.call(arguments, 1),
             self = this;
 
-        return function () {
+        return function (e) {
+            e.preventDefault();
             fn.apply(self, args);
         };
     };
@@ -101,7 +101,7 @@ var paginator = (function () {
         // Create previous
         var prev = document.createElement('a');
         prev.className = 'paginator-link';
-        prev.setAttribute('href', '#page-prev');
+        prev.setAttribute('href', '#');
         prev.innerHTML = o.prevText;
         prev.addEventListener('click', $.wrap.call(self, self.previous));
         fragment.appendChild(prev);
@@ -113,7 +113,7 @@ var paginator = (function () {
             if (o.currentPage === i) {
                 plink.className += ' paginator-active';
             }
-            plink.setAttribute('href', '#page-' + i);
+            plink.setAttribute('href', '#');
             plink.innerHTML = i + '';
             plink.addEventListener('click', $.wrap.call(self, self.select, i - 1), false);
 
@@ -132,7 +132,7 @@ var paginator = (function () {
         // Create next
         var next = document.createElement('a');
         next.className = 'paginator-link';
-        next.setAttribute('href', '#page-next');
+        next.setAttribute('href', '#');
         next.innerHTML = o.nextText;
         next.addEventListener('click', $.wrap.call(self, self.next));
         fragment.appendChild(next);
@@ -205,7 +205,7 @@ var paginator = (function () {
 
         // Show/hide dots
         var dots = this._linksWrapper.getElementsByClassName('paginator-dots');
-        dots[0].style.display = (activePageNum > o.margins) ? 'inline' : 'none';
+        dots[0].style.display = (start > o.margins) ? 'inline' : 'none';
         dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
     };
 
@@ -251,7 +251,7 @@ var paginator = (function () {
         $.showInterval.call(this);
     };
 
-    _.Paginator.prototype.getCurrentPage = function () { // Getter and setter
+    _.Paginator.prototype.getCurrentPage = function () {
         return this._pages[this._activePageNum];
     };
 
