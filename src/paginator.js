@@ -249,6 +249,11 @@ var paginator = (function () {
         // Update active page number
         this._activePageNum = pageNum;
         $.showInterval.call(this);
+
+        return {
+            'page': this._pages[pageNum],
+            'link': this._links[pageNum]
+        }
     };
 
     _.Paginator.prototype.getCurrentPage = function () {
@@ -258,15 +263,19 @@ var paginator = (function () {
     _.Paginator.prototype.previous = function () {
         var pageNum = this._activePageNum - 1;
         if (!$.isOutOfRange(pageNum, this._pages)) {
-            this.select(pageNum);
+            return this.select(pageNum);
         }
+
+        return null
     };
 
     _.Paginator.prototype.next = function () {
         var pageNum = this._activePageNum + 1;
         if (!$.isOutOfRange(pageNum, this._pages)) {
-            this.select(pageNum);
+            return this.select(pageNum);
         }
+
+        return null;
     };
 
     _.Paginator.prototype.pagesCount = function () {
