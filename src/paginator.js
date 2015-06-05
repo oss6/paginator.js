@@ -8,21 +8,23 @@
 var paginator = (function () {
     'use strict';
 
+    // Public and private namespaces
     var _ = {},
-        $ = {};
+        $ = {},
 
-    var defaults = {
-        'appendTo': null,
-        'itemsPerPage': 10,
-        'displayedPageNumbers': 5,
-        'currentPage': 1,
-        'margins': 2,
-        'prevText': 'Prev',
-        'nextText': 'Next',
-        'theme': 'default' // or 'no-theme' (so it can be customised)
-    };
+        defaults = {
+            'appendTo': null,
+            'itemsPerPage': 10,
+            'displayedPageNumbers': 5,
+            'currentPage': 1,
+            'margins': 2,
+            'prevText': 'Prev',
+            'nextText': 'Next',
+            'theme': 'default' // or 'no-theme' (so it can be customised)
+        };
 
     // BEGIN: Utilities
+
     $.extend = function (defaults, options) {
         var extended = {};
         var prop;
@@ -56,7 +58,6 @@ var paginator = (function () {
     $.getParent = function () {
         var o = this._opts;
 
-        // [squeeze]: ternary op here
         if (o.appendTo === null) {
             // Append to elements parent
             var testElement = this._elements[0]; // [fix]: empty array
@@ -84,9 +85,11 @@ var paginator = (function () {
             fn.apply(self, args);
         };
     };
+
     // END: Utilities
 
-    // BEGIN: Private member
+    // BEGIN: Private members
+
     $.createLinks = function (parent) {
         var self = this,
             o = self._opts,
@@ -98,7 +101,7 @@ var paginator = (function () {
             fragment = document.createDocumentFragment();
         wrapper.className = 'paginator-wrapper ' + (o.theme === 'default' ? 'default-theme' : 'no-theme');
 
-        // Create previous
+        // Create previous link
         var prev = document.createElement('a');
         prev.className = 'paginator-link';
         prev.setAttribute('href', '#');
@@ -120,7 +123,7 @@ var paginator = (function () {
             self._links.push(plink);
             fragment.appendChild(plink);
 
-            // Add dots
+            // Add dots (hidden)
             if (i === o.margins || numPages - i === o.margins) {
                 var dots = document.createElement('span');
                 dots.className = 'paginator-dots';
@@ -129,7 +132,7 @@ var paginator = (function () {
             }
         }
 
-        // Create next
+        // Create next link
         var next = document.createElement('a');
         next.className = 'paginator-link';
         next.setAttribute('href', '#');
@@ -175,9 +178,9 @@ var paginator = (function () {
     };
 
     $.showInterval = function () {
-        var o = this._opts;
-        var activePageNum = this._activePageNum;
-        var numLinks = this._links.length;
+        var o = this._opts,
+            activePageNum = this._activePageNum,
+            numLinks = this._links.length;
 
         // Reset all links
         for (var i = 0, l = this._links.length; i < l; i++) {
@@ -209,7 +212,9 @@ var paginator = (function () {
         dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
     };
 
-    // END: Private member
+    // END: Private members
+
+    // BEGIN: Paginator
 
     _.Paginator = function (elements, opts) {
         var self = this;
@@ -222,6 +227,7 @@ var paginator = (function () {
         self._links = [];
         self._linksWrapper = null;
         self._activePageNum = self._opts.currentPage - 1;
+        self._disabled = false;
 
         // Initialise links and pages
         var parent = $.getParent.call(self);
@@ -234,8 +240,11 @@ var paginator = (function () {
         return new _.Paginator(elements, opts);
     };
 
-    // BEGIN: Public methods
     _.Paginator.prototype.select = function (pageNum) {
+        if (this._disabled) {
+            return;
+        }
+
         var currentPage = this.getCurrentPage();
 
         // Remove
@@ -283,15 +292,14 @@ var paginator = (function () {
     };
 
     _.Paginator.prototype.disable = function () {
-
+        this._disabled = true;
     };
 
     _.Paginator.prototype.enable = function () {
-
+        this._disabled = false;
     };
 
-    // END: Public methods
+    // END: Paginator
 
     return _;
-
 })();
