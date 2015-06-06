@@ -288,21 +288,11 @@ var paginator = (function () {
     };
 
     _.Paginator.prototype.previous = function () {
-        var pageNum = this._activePageNum - 1;
-        if (!$.isOutOfRange(pageNum, this._pages)) {
-            return this.select(pageNum);
-        }
-
-        return null
+        return this.select(this._activePageNum - 1);
     };
 
     _.Paginator.prototype.next = function () {
-        var pageNum = this._activePageNum + 1;
-        if (!$.isOutOfRange(pageNum, this._pages)) {
-            return this.select(pageNum);
-        }
-
-        return null;
+        return this.select(this._activePageNum + 1);
     };
 
     _.Paginator.prototype.getPages = function () {
