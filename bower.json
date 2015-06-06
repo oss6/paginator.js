@@ -6,9 +6,9 @@
     "./src/paginator.css"
   ],
   "ignore": [
-    ".jshintrc"
+    ".jshintrc", "test"
   ],
   "devDependencies": {
-    "<test-framework-name>": "<version>"
+    "qunit": "~1.18.0"
   }
 }
