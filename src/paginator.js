@@ -259,6 +259,10 @@ var paginator = (function () {
             return;
         }
 
+        if ($.isOutOfRange(pageNum, this._links)) {
+            return null;
+        }
+
         var currentPage = this.getCurrentPage();
 
         // Remove
