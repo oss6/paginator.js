@@ -153,15 +153,24 @@ var paginator = (function () {
         var o = this._opts,
             elements = $.toArray(this._elements),
             numItems = elements.length,
-            itemsPerPage = o.itemsPerPage,
+            itemsPerPage = this._opts.itemsPerPage,
             numPages = Math.ceil(numItems / itemsPerPage);
+
+        // Consistency check
+        if (numPages < this._opts.displayedPageNumbers) {
+            this._opts.displayedPageNumbers = numPages;
+        }
+
+        if (numPages < this._opts.margins) {
+            this._opts.margins = numPages;
+        }
 
         for (var i = 1; i <= numPages; i++) {
             var page = document.createElement('div'),
                 toAdd = elements.slice(0, itemsPerPage);
 
             page.className = 'paginator-page';
-            if (o.currentPage === i) {
+            if (this._opts.currentPage === i) {
                 page.className += ' paginator-active';
             }
 
@@ -208,8 +217,13 @@ var paginator = (function () {
 
         // Show/hide dots
         var dots = this._linksWrapper.getElementsByClassName('paginator-dots');
-        dots[0].style.display = (start > o.margins) ? 'inline' : 'none';
-        dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
+        if (dots[0]) {
+            dots[0].style.display = (start > o.margins) ? 'inline' : 'none';
+        }
+
+        if (dots[1]) {
+            dots[1].style.display = (end < numLinks - o.margins) ? 'inline' : 'none';
+        }
     };
 
     // END: Private members
@@ -285,6 +299,14 @@ var paginator = (function () {
         }
 
         return null;
+    };
+
+    _.Paginator.prototype.getPages = function () {
+        return this._pages;
+    };
+
+    _.Paginator.prototype.getLinks = function () {
+        return this._links;
     };
 
     _.Paginator.prototype.pagesCount = function () {
